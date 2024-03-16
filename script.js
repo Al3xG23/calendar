@@ -2,50 +2,65 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
-
-let hour9 = document.body.children[1].children[0];
-let hour10 = document.body.children[1].children[1];
-let hour11 = document.body.children[1].children[2];
-let hour12 = document.body.children[1].children[3];
-let hour13 = document.body.children[1].children[4];
-let hour14 = document.body.children[1].children[5];
-let hour15 = document.body.children[1].children[6];
-let hour16 = document.body.children[1].children[7];
-let hour17 = document.body.children[1].children[8];
 // console.log(hour9);
 
-let time = [
-  hour9.children[0].dateTime,
-  hour10.children[0].dateTime,
-  hour11.children[0].dateTime,
-  hour12.children[0].dateTime,
-  hour13.children[0].dateTime,
-  hour14.children[0].dateTime,
-  hour15.children[0].dateTime,
-  hour16.children[0].dateTime,
-  hour17.children[0].dateTime,
-];
-console.log(time);
+$(function () {
+  let hour9 = document.body.children[1].children[0];
+  let hour10 = document.body.children[1].children[1];
+  let hour11 = document.body.children[1].children[2];
+  let hour12 = document.body.children[1].children[3];
+  let hour13 = document.body.children[1].children[4];
+  let hour14 = document.body.children[1].children[5];
+  let hour15 = document.body.children[1].children[6];
+  let hour16 = document.body.children[1].children[7];
+  let hour17 = document.body.children[1].children[8];
 
+let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fourteen1", "fifteen1", "sixteen1", "seventeen1"];
 
-// $(function () {
+  let time = [
+    parseInt(hour9.children[0].dateTime),
+    parseInt(hour10.children[0].dateTime),
+    parseInt(hour11.children[0].dateTime),
+    parseInt(hour12.children[0].dateTime),
+    parseInt(hour13.children[0].dateTime),
+    parseInt(hour14.children[0].dateTime),
+    parseInt(hour15.children[0].dateTime),
+    parseInt(hour16.children[0].dateTime),
+    parseInt(hour17.children[0].dateTime),
+  ];
+  console.log(time);
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
+
+  function saveNote(ev) {
+    var hour = ev.target.id;
+    console.log(ev);
+    var note = document.getElementById(`${hour}1`).value;
+    localStorage.setItem(`${hour}1`, note);
+  };
   
-  // addEventListener("click", button.hourX[0]);
-  // addEventListener("click", button.hourX[1]);
-  // addEventListener("click", button.hourX[2]);
-  // addEventListener("click", button.hourX[3]);
-  // addEventListener("click", button.hourX[4]);
-  // addEventListener("click", button.hourX[5]);
-  // addEventListener("click", button.hourX[6]);
-  // addEventListener("click", button.hourX[7]);
-  // addEventListener("click", button.hourX[8]);
-  
+  var nine = document.getElementById('nine').addEventListener("click", saveNote);
+  var ten = document.getElementById('ten').addEventListener("click", saveNote);
+  var eleven = document.getElementById('eleven').addEventListener("click", saveNote);
+  var twelve = document.getElementById('twelve').addEventListener("click", saveNote);
+  var thirteen = document.getElementById('thirteen').addEventListener("click", saveNote);
+  var fourteen = document.getElementById('fourteen').addEventListener("click", saveNote);
+  var fifteen = document.getElementById('fifteen').addEventListener("click", saveNote);
+  var sixteen = document.getElementById('sixteen').addEventListener("click", saveNote);
+  var seventeen = document.getElementById('seventeen').addEventListener("click", saveNote);
+
+localStorageKeys.forEach((currentKey)=>getNotes(currentKey));
+function getNotes(currentKey) {
+  let currentLocalValue = localStorage.getItem(currentKey);
+  if( currentLocalValue != undefined ) {
+    document.getElementById(currentKey).value = currentLocalValue;
+  }
+};
+
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
@@ -54,24 +69,25 @@ console.log(time);
 
   let currentHour = dayjs().hour();
   console.log(currentHour);
-  
-  time.forEach(colorTime);
-  function colorTime() {
+
+  time.forEach((currentTime)=>colorTime(currentTime));
+  function colorTime(currentTime) {
     var row = document.querySelector(".row");
-    if (currentHour === time) {
+    console.log(typeof currentTime);
+    if (currentHour === currentTime) {
       row.setAttribute('class', 'present')
-    } else if (currentHour > time) {
-      row.setAttribute('class', 'future')
-    } else {
+    } else if (currentHour > currentTime) {
       row.setAttribute('class', 'past')
+    } else {
+      row.setAttribute('class', 'future')
     }
   };
-  
-// TODO: Add code to get any user input that was saved in localStorage and set
-// the values of the corresponding textarea elements. HINT: How can the id
-// attribute of each time-block be used to do this?
 
-// TODO: Add code to display the current date in the header of the page.
-var today = dayjs();
-$('#currentDay').text(today.format('MMM D, YYYY'));
-// });
+  // TODO: Add code to get any user input that was saved in localStorage and set
+  // the values of the corresponding textarea elements. HINT: How can the id
+  // attribute of each time-block be used to do this?
+
+  // TODO: Add code to display the current date in the header of the page.
+  var today = dayjs();
+  $('#currentDay').text(today.format('MMM D, YYYY'));
+});
