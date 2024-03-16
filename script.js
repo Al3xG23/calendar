@@ -2,9 +2,14 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
-// console.log(hour9);
-
 $(function () {
+  // Listener for click events on the save button. This code should
+  // use the id in the containing time-block as a key to save the user input in
+  // local storage. HINT: What does `this` reference in the click listener
+  // function? How can DOM traversal be used to get the "hour-x" id of the
+  // time-block containing the button that was clicked? How might the id be
+  // useful when saving the description in local storage?
+
   let hour9 = document.body.children[1].children[0];
   let hour10 = document.body.children[1].children[1];
   let hour11 = document.body.children[1].children[2];
@@ -15,7 +20,7 @@ $(function () {
   let hour16 = document.body.children[1].children[7];
   let hour17 = document.body.children[1].children[8];
 
-let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fourteen1", "fifteen1", "sixteen1", "seventeen1"];
+  let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fourteen1", "fifteen1", "sixteen1", "seventeen1"];
 
   let time = [
     parseInt(hour9.children[0].dateTime),
@@ -28,13 +33,6 @@ let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fou
     parseInt(hour16.children[0].dateTime),
     parseInt(hour17.children[0].dateTime),
   ];
-  console.log(time);
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
 
   function saveNote(ev) {
     var hour = ev.target.id;
@@ -42,7 +40,7 @@ let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fou
     var note = document.getElementById(`${hour}1`).value;
     localStorage.setItem(`${hour}1`, note);
   };
-  
+
   var nine = document.getElementById('nine').addEventListener("click", saveNote);
   var ten = document.getElementById('ten').addEventListener("click", saveNote);
   var eleven = document.getElementById('eleven').addEventListener("click", saveNote);
@@ -53,15 +51,7 @@ let localStorageKeys = ["nine1", "ten1", "eleven1", "twelve1", "thirteen1", "fou
   var sixteen = document.getElementById('sixteen').addEventListener("click", saveNote);
   var seventeen = document.getElementById('seventeen').addEventListener("click", saveNote);
 
-localStorageKeys.forEach((currentKey)=>getNotes(currentKey));
-function getNotes(currentKey) {
-  let currentLocalValue = localStorage.getItem(currentKey);
-  if( currentLocalValue != undefined ) {
-    document.getElementById(currentKey).value = currentLocalValue;
-  }
-};
-
-  // TODO: Add code to apply the past, present, or future class to each time
+  // Code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
@@ -70,7 +60,7 @@ function getNotes(currentKey) {
   let currentHour = dayjs().hour();
   console.log(currentHour);
 
-  time.forEach((currentTime)=>colorTime(currentTime));
+  time.forEach((currentTime) => colorTime(currentTime));
   function colorTime(currentTime) {
     var row = document.querySelector(".row");
     console.log(typeof currentTime);
@@ -83,11 +73,19 @@ function getNotes(currentKey) {
     }
   };
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
+  // Code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
-  // TODO: Add code to display the current date in the header of the page.
+  localStorageKeys.forEach((currentKey) => getNotes(currentKey));
+  function getNotes(currentKey) {
+    let currentLocalValue = localStorage.getItem(currentKey);
+    if (currentLocalValue != undefined) {
+      document.getElementById(currentKey).value = currentLocalValue;
+    }
+  };
+
+  // Code to display the current date in the header of the page.
   var today = dayjs();
   $('#currentDay').text(today.format('MMM D, YYYY'));
 });

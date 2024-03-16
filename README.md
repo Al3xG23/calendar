@@ -38,8 +38,12 @@ THEN the saved events persist
 
 ## Links
 
+https://github.com/Al3xG23/calendar
 
+https://al3xg23.github.io/calendar/
 
 ## Images
 
+![alt text](<Screenshot 2024-03-16 161732.png>)
 
+![alt text](<Screenshot 2024-03-16 162014.png>)
